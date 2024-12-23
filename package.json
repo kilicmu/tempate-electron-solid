@@ -1,0 +1,58 @@
+{
+  "name": "electron-vite-solid",
+  "private": true,
+  "version": "0.0.1",
+  "main": "dist/main/index.js",
+  "scripts": {
+    "dev": "node dev.mjs",
+    "build:prepare": "vite build && tsc",
+    "build": "pnpm run build:prepare && electron-builder -mwl",
+    "build:mac": "pnpm run build:prepare && electron-builder --mac",
+    "build:win": "pnpm run build:prepare && electron-builder --win",
+    "build:linux": "pnpm run build:prepare && electron-builder --linux",
+    "build:mac:arm64": "pnpm run build:prepare && electron-builder --mac --arm64",
+    "build:win:32": "pnpm run build:prepare && electron-builder --win --ia32",
+    "build:win:64": "pnpm run build:prepare && electron-builder --win --x64",
+    "pack": "npm run build && npm run build:electron && electron-builder",
+    "pack:dir": "npm run build && npm run build:electron && electron-builder --dir",
+    "preview": "vite preview",
+    "start": "electron .",
+    "watch": "tsc -w",
+    "clean": "rimraf dist",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "build": {
+    "appId": "com.electron-vite-solid.app",
+    "asar": true,
+    "directories": {
+      "output": "dist/mac-arm64"
+    },
+    "files": [
+      "dist/renderer/**/*",
+      "dist/main/**/*"
+    ],
+    "mac": {
+      "target": ["dmg"],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "extraMetadata": {
+      "main": "dist/main/index.js"
+    }
+  },
+  "dependencies": {
+    "solid-js": "^1.8.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "eslint": "^8.56.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vite-plugin-electron": "^0.29.0",
+    "vite-plugin-solid": "^2.8.0"
+  }
+}
